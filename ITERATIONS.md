@@ -156,10 +156,37 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
     - `frontend/src/lib/modules.test.ts` — 3 tests couvrant les deux parcours connus et le cas parcours inconnu (critère 3).
     - `frontend/src/app/page.tsx` — ajoute les états `choisirModule`/`moduleId`, le bouton « Choisir un module » sur l'écran de suggestion, l'écran de liste des modules, et l'écran *Mon module* (critères 1-2).
 
+## Itération 6 : inscription à un atelier socle depuis l'écran du module
+
+**Plan validé le 2026-11-18** (demande du développeur, scope réduit vu le temps).
+
+- **Temps restant annoncé** : 10 minutes (demandé le 2026-11-18). Capacité insuffisante pour un cycle complet avec tour de test formel (10 codage + 5 publication + 10 test = 25) : traité sans tour de test formel, à l'image des itérations 2, 4 et 5.
+- **Dans le périmètre** : un atelier en dur par parcours (titre, date, lieu), affiché sur l'écran *Mon module*, avec un bouton « S'inscrire » (confirmation affichée) et un bouton « Plus tard » (report sans perte, on reste sur l'écran).
+- **Hors périmètre** : liste de plusieurs ateliers, vraie prise de rendez-vous ou persistance côté serveur, rappel/notification.
+- **Critères d'acceptation** :
+  - Étant donné l'écran *Mon module*, quand il s'affiche, alors l'atelier associé au parcours (titre, date, lieu) est visible avec deux boutons, « S'inscrire » et « Plus tard ».
+  - Étant donné le bouton « S'inscrire » cliqué, alors un message de confirmation remplace les boutons.
+  - Étant donné le bouton « Plus tard » cliqué, alors l'écran *Mon module* reste affiché, sans inscription, avec un message de report.
+- **Hypothèse de l'équipe couverte** : « Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil) » (règle de `7-prd.md`).
+- **Codage estimé** : 5 minutes (plafond réduit).
+- **Fichiers prévus** : `frontend/src/lib/ateliers.ts`, `frontend/src/lib/ateliers.test.ts`, `frontend/src/app/page.tsx`.
+- **Tests unitaires prévus** : 3, sur `atelierDuParcours` (2 parcours connus + 1 parcours inconnu).
+- **Étapes ajoutées à la démo** : aucune (pas de temps ; `e2e/demo.spec.ts` inchangé, reporté).
+- **Bilan** :
+  - **Durée de codage réelle** : < 1 minute entre `.iterations/6.debut` et `.iterations/6.fin`, très en dessous du plafond réduit.
+  - **Critères satisfaits** : les 3 — `npm test` passe (11 tests dont les 3 nouveaux), vérifié en local (`curl` sur `/health` et `/sante` après déploiement).
+  - **Reporté** : `e2e/demo.spec.ts`, plusieurs créneaux d'atelier, persistance réelle de l'inscription → itérations suivantes.
+  - **Bloqué par le harnais** : rien (`./scripts/verifier-deployabilite.sh` : aucune borne).
+  - **Démo** : non modifiée (reportée faute de temps).
+  - **Modifications** :
+    - `frontend/src/lib/ateliers.ts` — ajoute `Atelier`, la table `ATELIERS_PAR_PARCOURS` (1 atelier par parcours) et `atelierDuParcours(parcours)` (critère 1).
+    - `frontend/src/lib/ateliers.test.ts` — 3 tests couvrant les deux parcours connus et le cas parcours inconnu.
+    - `frontend/src/app/page.tsx` — ajoute les états `inscrit`/`atelierReporte`, la section atelier sur l'écran *Mon module* avec les boutons « S'inscrire » / « Plus tard » et leurs messages de confirmation/report (critères 1-3).
+
 ## À venir
 
-1. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
-2. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
-3. La question « besoin du moment » du quiz, reportée de l'itération 3 faute de temps.
-4. Contenu réel des modules (ressources, textes), au-delà du titre/description en dur.
-5. Mise à jour de `e2e/demo.spec.ts` avec le parcours module, reportée faute de temps.
+1. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
+2. La question « besoin du moment » du quiz, reportée de l'itération 3 faute de temps.
+3. Contenu réel des modules (ressources, textes), au-delà du titre/description en dur.
+4. Mise à jour de `e2e/demo.spec.ts` avec le parcours module + atelier, reportée faute de temps.
+5. Plusieurs créneaux d'atelier et persistance réelle de l'inscription.
