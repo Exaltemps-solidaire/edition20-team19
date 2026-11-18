@@ -27,12 +27,15 @@ export default function Home() {
   if (!personaId) {
     return (
       <main className={styles.main}>
-        <h1>Qui êtes-vous ?</h1>
-        <ul>
+        <p className={styles.eyebrow}>L&apos;BURN</p>
+        <h1 className={styles.title}>Qui êtes-vous ?</h1>
+        <p className={styles.subtitle}>Choisis un profil pour découvrir ton parcours personnalisé.</p>
+        <ul className={styles.list}>
           {PERSONAS.map((persona) => (
             <li key={persona.id}>
-              <button type="button" onClick={() => setPersonaId(persona.id)}>
-                {persona.nom} — {persona.role}
+              <button type="button" className={styles.card} onClick={() => setPersonaId(persona.id)}>
+                <div className={styles.cardName}>{persona.nom}</div>
+                <div className={styles.cardRole}>{persona.role}</div>
               </button>
             </li>
           ))}
@@ -47,27 +50,47 @@ export default function Home() {
   if (estBurnette && (!energie || !stade)) {
     return (
       <main className={styles.main}>
-        <button type="button" onClick={changerDePersona}>
-          Changer de persona
+        <button type="button" className={styles.back} onClick={changerDePersona}>
+          ← Changer de persona
         </button>
-        <h1>Évaluation de départ</h1>
-        <section>
+        <h1 className={styles.title}>Évaluation de départ</h1>
+        <section className={styles.section}>
           <h2>Ton énergie aujourd&apos;hui</h2>
-          <button type="button" onClick={() => setEnergie("faible")}>
-            Faible
-          </button>
-          <button type="button" onClick={() => setEnergie("elevee")}>
-            Élevée
-          </button>
+          <div className={styles.choices}>
+            <button
+              type="button"
+              className={`${styles.chip} ${energie === "faible" ? styles.chipSelected : ""}`}
+              onClick={() => setEnergie("faible")}
+            >
+              Faible
+            </button>
+            <button
+              type="button"
+              className={`${styles.chip} ${energie === "elevee" ? styles.chipSelected : ""}`}
+              onClick={() => setEnergie("elevee")}
+            >
+              Élevée
+            </button>
+          </div>
         </section>
-        <section>
+        <section className={styles.section}>
           <h2>Ton stade</h2>
-          <button type="button" onClick={() => setStade("reconstruction")}>
-            Reconstruction
-          </button>
-          <button type="button" onClick={() => setStade("remobilisation")}>
-            Remobilisation
-          </button>
+          <div className={styles.choices}>
+            <button
+              type="button"
+              className={`${styles.chip} ${stade === "reconstruction" ? styles.chipSelected : ""}`}
+              onClick={() => setStade("reconstruction")}
+            >
+              Reconstruction
+            </button>
+            <button
+              type="button"
+              className={`${styles.chip} ${stade === "remobilisation" ? styles.chipSelected : ""}`}
+              onClick={() => setStade("remobilisation")}
+            >
+              Remobilisation
+            </button>
+          </div>
         </section>
       </main>
     );
@@ -77,21 +100,19 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <button type="button" onClick={changerDePersona}>
-        Changer de persona
+      <button type="button" className={styles.back} onClick={changerDePersona}>
+        ← Changer de persona
       </button>
-      <h1>Bonjour {persona.nom}</h1>
+      <h1 className={styles.title}>Bonjour {persona.nom}</h1>
       {suggestion ? (
-        <section>
-          <h2>Suggestion de parcours</h2>
-          <p>
-            <strong>{suggestion.parcours}</strong>
-          </p>
-          <p>{suggestion.module}</p>
-          <p>{suggestion.explication}</p>
+        <section className={styles.result}>
+          <p className={styles.resultLabel}>Suggestion de parcours</p>
+          <p className={styles.resultParcours}>{suggestion.parcours}</p>
+          <p className={styles.resultModule}>{suggestion.module}</p>
+          <p className={styles.resultExplication}>{suggestion.explication}</p>
         </section>
       ) : (
-        <p>Ce rôle n&apos;a pas de parcours personnel sur la plateforme.</p>
+        <p className={styles.empty}>Ce rôle n&apos;a pas de parcours personnel sur la plateforme.</p>
       )}
     </main>
   );

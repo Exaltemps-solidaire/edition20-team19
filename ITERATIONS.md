@@ -102,6 +102,33 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
     - `frontend/src/lib/suggestions.test.ts` — 2 tests sur cette nouvelle fonction (critère 2).
     - `frontend/src/app/page.tsx` — ajoute l'écran *Évaluation de départ* (énergie, stade) entre le choix de persona et la suggestion, uniquement pour les personas BURN'ette ; les autres personas gardent le comportement précédent (critères 1 et 3).
 
+## Itération 4 : passe visuelle (palette, cartes, typographie) sur les 3 écrans
+
+**Plan validé le 2026-11-18** (demande du développeur, scope réduit en CSS pur vu le temps).
+
+- **Temps restant annoncé** : 10 minutes (demandé le 2026-11-18 à 18:03). Capacité insuffisante pour un cycle complet avec tour de test (10 codage + 5 publication + 10 test = 25) : traité comme une itération de polish visuel, sans nouvelle logique métier ni tour de test formel, à l'image de l'itération 2.
+- **Dans le périmètre** : palette de couleurs (corail + vert sauge), mise en cartes des personas, boutons de quiz en chips avec état sélectionné visible, carte de résultat mise en valeur — sur les 3 écrans existants (persona, quiz, suggestion), en CSS pur, sans nouvelle dépendance.
+- **Hors périmètre** : toute nouvelle fonctionnalité (choix du module, atelier, fil d'Ariane), animations avancées, dark mode (retiré pour garder une identité visuelle unique).
+- **Critères d'acceptation** :
+  - Étant donné l'écran *Qui êtes-vous ?*, quand on l'affiche, alors les personas sont présentés en cartes avec la nouvelle palette.
+  - Étant donné l'écran *Évaluation de départ*, quand on sélectionne une réponse, alors le bouton choisi a un état visuel distinct (couleur pleine) des autres.
+  - Étant donné l'écran *Suggestion de parcours*, quand il s'affiche, alors le résultat est mis en valeur dans une carte à fort contraste (couleur d'accent).
+- **Hypothèse de l'équipe couverte** : aucune (esthétique pure, pas de mesure produit).
+- **Codage estimé** : 5 minutes (plafond réduit).
+- **Fichiers prévus** : `frontend/src/app/globals.css`, `frontend/src/app/page.module.css`, `frontend/src/app/page.tsx`.
+- **Tests unitaires prévus** : aucun (balisage/style pur, pas de logique métier).
+- **Étapes ajoutées à la démo** : aucune (pas de nouveau parcours fonctionnel).
+- **Bilan** :
+  - **Durée de codage réelle** : ~56 secondes entre `.iterations/4.debut` et `.iterations/4.fin`, très en dessous du plafond réduit.
+  - **Critères satisfaits** : les 3 — vérifié en local (`curl` + relecture du HTML généré) : cartes personas, chips avec classe `chipSelected` à l'activation, carte de résultat en dégradé corail.
+  - **Reporté** : rien de nouveau ; tout le périmètre fonctionnel (module, atelier, fil d'Ariane) reste dans « À venir ».
+  - **Bloqué par le harnais** : rien (`npm test` toujours vert — inchangé, c'est du style —, aucune borne sur `./scripts/verifier-deployabilite.sh`).
+  - **Démo** : non modifiée (aucun nouveau parcours).
+  - **Modifications** :
+    - `frontend/src/app/globals.css` — nouvelle palette (corail/vert sauge) en variables CSS, fond dégradé léger, suppression du mode sombre automatique pour garder une identité visuelle unique (critères 1-3).
+    - `frontend/src/app/page.module.css` — réécriture complète : cartes pour les personas, chips pour le quiz avec état sélectionné, carte de résultat en dégradé (critères 1-3).
+    - `frontend/src/app/page.tsx` — ajoute les classNames nécessaires (cartes, chip sélectionné conditionnel, structure du résultat) sans changer la logique (critères 1-3).
+
 ## À venir
 
 1. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).

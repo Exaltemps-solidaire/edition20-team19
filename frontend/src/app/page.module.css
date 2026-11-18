@@ -1,10 +1,161 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  max-width: 600px;
+  align-items: stretch;
+  gap: 24px;
+  max-width: 640px;
+  width: 100%;
   margin: 0 auto;
-  padding: 48px 24px;
-  font-family: var(--font-geist-sans);
+  padding: 56px 24px;
+}
+
+.eyebrow {
+  color: var(--corail-fonce);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.title {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: var(--foreground);
+}
+
+.subtitle {
+  color: #5b6961;
+  font-size: 1rem;
+}
+
+.back {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--sauge);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--carte);
+  box-shadow: var(--ombre);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  font: inherit;
+  color: inherit;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--corail);
+}
+
+.cardName {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.cardRole {
+  color: #5b6961;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.section {
+  background: var(--carte);
+  border-radius: 20px;
+  box-shadow: var(--ombre);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  border: 2px solid var(--sauge-claire);
+  background: var(--sauge-claire);
+  color: var(--foreground);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font: inherit;
+}
+
+.chip:hover {
+  border-color: var(--sauge);
+}
+
+.chipSelected {
+  background: var(--sauge);
+  border-color: var(--sauge);
+  color: #ffffff;
+}
+
+.result {
+  background: linear-gradient(135deg, var(--corail) 0%, var(--corail-fonce) 100%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--ombre);
+}
+
+.resultLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.resultParcours {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.resultModule {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.resultExplication {
+  margin-top: 8px;
+  opacity: 0.92;
+  line-height: 1.4;
+}
+
+.empty {
+  background: var(--carte);
+  border-radius: 20px;
+  box-shadow: var(--ombre);
+  padding: 24px;
+  color: #5b6961;
 }
