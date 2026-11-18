@@ -52,9 +52,32 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
     - `podman-compose.yml` — déploiement des deux services sur 8080/8081 selon la recette du serveur.
     - `e2e/demo.spec.ts` — étapes de la démo pour cette itération (hors DoD).
 
+## Itération 2 : stabiliser l'écran livré pour le pitch (pas de nouvelle fonctionnalité)
+
+- **Temps restant annoncé** : 15 minutes (demandé le 2026-11-18 à 17:49). Durée du tour de test non redemandée : à 15 minutes, codage (≤10 min) + publication (~5 min) ne laisse déjà plus de marge, donc aucun tour de test de l'équipe n'est possible avant la fin du temps annoncé.
+- ✂️ **Périmètre réduit explicitement** : le temps ne permet pas de démarrer le vrai quiz d'évaluation (itération reportée ci-dessous) ni un tour de test. Décision prise avec le développeur : consacrer le temps à stabiliser ce qui est déjà déployé plutôt que risquer une fonctionnalité inachevée.
+- **Dans le périmètre** : corriger les deux détails cosmétiques du gabarit par défaut repérés après le déploiement de l'itération 1 (titre de page générique, langue HTML incorrecte).
+- **Hors périmètre** : le quiz, le choix du module, l'atelier, le fil d'Ariane (inchangé, reporté).
+- **Critères d'acceptation** :
+  - Étant donné la page déployée, quand on inspecte le `<title>`, alors il affiche un titre propre à l'application (plus « Create Next App »).
+  - Étant donné la page déployée, quand on inspecte `<html lang="...">`, alors la langue est `fr`.
+- **Hypothèse de l'équipe couverte** : aucune (pur polish, pas de logique métier nouvelle).
+- **Codage estimé** : quelques minutes (très en dessous du plafond).
+- **Fichiers prévus** : `frontend/src/app/layout.tsx`.
+- **Tests unitaires prévus** : aucun (balisage pur, pas de logique métier).
+- **Étapes ajoutées à la démo** : aucune (pas de nouveau parcours utilisateur).
+- **Bilan** :
+  - **Durée de codage réelle** : ~15 secondes entre `.iterations/2.debut` et `.iterations/2.fin` — très en dessous du plafond, aucune alarme déclenchée.
+  - **Critères satisfaits** : les 2 — vérifié par `curl` en local : `<title>L'BURN — Mon parcours</title>` et `lang="fr"`.
+  - **Reporté** : rien de nouveau ; le quiz réel, le choix du module, l'atelier et le fil d'Ariane restent dans « À venir » comme prévu par l'itération 1.
+  - **Bloqué par le harnais** : rien (`npm test` passant, aucune borne sur `./scripts/verifier-deployabilite.sh`).
+  - **Démo** : non modifiée, cette itération ne touchant pas au parcours utilisateur.
+  - **Modifications** :
+    - `frontend/src/app/layout.tsx` — remplace le titre/description par défaut de Next.js par ceux de l'application, et corrige `lang="en"` en `lang="fr"` (critères 1 et 2).
+
 ## À venir
 
-1. **Itération 2 (proposée)** : le vrai quiz d'évaluation (énergie, stade, besoin du moment) remplace les données en dur et calcule la suggestion — objectif démontrable : « on répond à 2-3 questions et la suggestion change selon les réponses ». À détailler en DoR au prochain `/iteration` avec le temps restant d'alors.
+1. **Itération 3 (proposée)** : le vrai quiz d'évaluation (énergie, stade, besoin du moment) remplace les données en dur et calcule la suggestion — objectif démontrable : « on répond à 2-3 questions et la suggestion change selon les réponses ». À détailler en DoR au prochain `/iteration` avec le temps restant d'alors.
 2. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).
 3. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
 4. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
