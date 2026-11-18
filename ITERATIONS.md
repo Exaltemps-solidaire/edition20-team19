@@ -75,9 +75,36 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
   - **Modifications** :
     - `frontend/src/app/layout.tsx` — remplace le titre/description par défaut de Next.js par ceux de l'application, et corrige `lang="en"` en `lang="fr"` (critères 1 et 2).
 
+## Itération 3 : le quiz remplace le choix de persona pour calculer la suggestion
+
+**Plan validé le 2026-11-18** (scope réduit par le développeur vu le temps restant).
+
+- **Temps restant annoncé** : 20 minutes (demandé le 2026-11-18 à 17:56). Tour de test : valeur par défaut 10 minutes (non précisée). Capacité : 20 − 5 (publication) − 10 (tour de test) = **5 minutes de codage max** — scope réduit en conséquence (seulement énergie + stade, pas le besoin du moment).
+- **Dans le périmètre** : écran *Évaluation de départ* (2 questions fermées : énergie, stade) pour les personas BURN'ette, calcul de la suggestion à partir du stade.
+- **Hors périmètre** : la question « besoin du moment », le choix du module, l'atelier, le fil d'Ariane.
+- **Critères d'acceptation** :
+  - Étant donné un persona BURN'ette choisi, quand on arrive sur l'écran suivant, alors 2 questions (énergie, stade) s'affichent avant toute suggestion.
+  - Étant donné les réponses au quiz, quand on valide, alors la suggestion affichée dépend du stade choisi (reconstruction → BURN TO BE ALIVE, remobilisation → BURN'ette is BACK).
+  - Étant donné un persona non-BURN'ette (PO, professionnelle), quand on arrive, alors le message « pas de parcours personnel » s'affiche toujours sans quiz.
+- **Hypothèse de l'équipe couverte** : « 0 contact équipe pour s'orienter » — pas mesurable ce coup-ci (pas de vrai tour de test vu le temps).
+- **Codage estimé** : 5 minutes (plafond réduit).
+- **Fichiers prévus** : `frontend/src/lib/suggestions.ts`, `frontend/src/lib/suggestions.test.ts`, `frontend/src/app/page.tsx`.
+- **Tests unitaires prévus** : 1 à 3, sur la fonction pure stade → suggestion.
+- **Étapes ajoutées à la démo** : aucune cette fois (budget trop serré pour y toucher aussi).
+- **Bilan** :
+  - **Durée de codage réelle** : ~46 secondes entre `.iterations/3.debut` et `.iterations/3.fin`, très en dessous du plafond réduit de 5 minutes, aucune alarme nécessaire.
+  - **Critères satisfaits** : les 3 — vérifiés en local : l'écran *Évaluation de départ* s'affiche pour les personas BURN'ette avant la suggestion, la suggestion dépend du stade choisi (tests unitaires), et les personas PO/professionnelle gardent le message « pas de parcours personnel » sans quiz.
+  - **Reporté** : la question « besoin du moment » du quiz (hors périmètre assumé dès le départ) ; le choix du module, l'atelier et le fil d'Ariane restent dans « À venir ».
+  - **Bloqué par le harnais** : rien (`npm test` passant — 5 tests frontend dont 2 nouveaux —, aucune borne sur `./scripts/verifier-deployabilite.sh`).
+  - **Démo** : non mise à jour (`e2e/demo.spec.ts` ne couvre donc pas encore le quiz) — à faire à la prochaine itération si le temps le permet.
+  - **Modifications** :
+    - `frontend/src/lib/suggestions.ts` — ajoute `suggererParcoursDepuisStade`, une fonction pure stade → suggestion, indépendante du persona (critères 1 et 2).
+    - `frontend/src/lib/suggestions.test.ts` — 2 tests sur cette nouvelle fonction (critère 2).
+    - `frontend/src/app/page.tsx` — ajoute l'écran *Évaluation de départ* (énergie, stade) entre le choix de persona et la suggestion, uniquement pour les personas BURN'ette ; les autres personas gardent le comportement précédent (critères 1 et 3).
+
 ## À venir
 
-1. **Itération 3 (proposée)** : le vrai quiz d'évaluation (énergie, stade, besoin du moment) remplace les données en dur et calcule la suggestion — objectif démontrable : « on répond à 2-3 questions et la suggestion change selon les réponses ». À détailler en DoR au prochain `/iteration` avec le temps restant d'alors.
-2. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).
-3. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
-4. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
+1. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).
+2. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
+3. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
+4. La question « besoin du moment » du quiz, reportée de l'itération 3 faute de temps.

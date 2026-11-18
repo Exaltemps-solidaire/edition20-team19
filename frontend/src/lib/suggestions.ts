@@ -24,6 +24,26 @@ export interface Suggestion {
   explication: string;
 }
 
+export type Energie = "faible" | "elevee";
+export type Stade = "reconstruction" | "remobilisation";
+
+export function suggererParcoursDepuisStade(stade: Stade): Suggestion {
+  switch (stade) {
+    case "reconstruction":
+      return {
+        parcours: "BURN TO BE ALIVE",
+        module: "Module 1 — Comprendre ce qui m'arrive",
+        explication: "Ce module socle correspond à une BURN'ette qui débute sa reconstruction.",
+      };
+    case "remobilisation":
+      return {
+        parcours: "BURN'ette is BACK",
+        module: "Module 4 — Se remobiliser à son rythme",
+        explication: "Ce module correspond à une BURN'ette qui prépare sa remobilisation professionnelle.",
+      };
+  }
+}
+
 export function suggererParcours(personaId: PersonaId): Suggestion | null {
   switch (personaId) {
     case "burnette-reconstruction":
