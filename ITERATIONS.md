@@ -129,9 +129,37 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
     - `frontend/src/app/page.module.css` — réécriture complète : cartes pour les personas, chips pour le quiz avec état sélectionné, carte de résultat en dégradé (critères 1-3).
     - `frontend/src/app/page.tsx` — ajoute les classNames nécessaires (cartes, chip sélectionné conditionnel, structure du résultat) sans changer la logique (critères 1-3).
 
+## Itération 5 : choisir un module parmi ceux du parcours suggéré
+
+**Plan validé le 2026-11-18** (demande du développeur, scope réduit vu le temps).
+
+- **Temps restant annoncé** : 10 minutes (demandé le 2026-11-18). Capacité insuffisante pour un cycle complet avec tour de test formel (10 codage + 5 publication + 10 test = 25) : traité sans tour de test formel, à l'image des itérations 2 et 4.
+- **Dans le périmètre** : une liste de modules en dur par parcours (3 par parcours, repris du PRD), un écran « Choisis ton module » accessible depuis l'écran de suggestion, et un écran « Mon module » affichant le titre et la description du module choisi.
+- **Hors périmètre** : inscription à un atelier, contenu réel des modules (textes/ressources), fil d'Ariane, réévaluation.
+- **Critères d'acceptation** :
+  - Étant donné la suggestion affichée, quand on clique sur « Choisir un module », alors la liste des modules du parcours s'affiche.
+  - Étant donné un module choisi, quand on valide, alors l'écran *Mon module* affiche son titre et sa description.
+  - Étant donné un parcours inconnu, quand on cherche ses modules, alors la liste retournée est vide (pas de crash).
+- **Hypothèse de l'équipe couverte** : « La BURN'ette choisit son module » (règle de `7-prd.md`).
+- **Codage estimé** : 5 minutes (plafond réduit).
+- **Fichiers prévus** : `frontend/src/lib/modules.ts`, `frontend/src/lib/modules.test.ts`, `frontend/src/app/page.tsx`.
+- **Tests unitaires prévus** : 3, sur `modulesDuParcours` (2 parcours connus + 1 parcours inconnu).
+- **Étapes ajoutées à la démo** : aucune (pas de temps ; `e2e/demo.spec.ts` inchangé, reporté).
+- **Bilan** :
+  - **Durée de codage réelle** : 3 minutes entre `.iterations/5.debut` et `.iterations/5.fin`, dans le plafond réduit.
+  - **Critères satisfaits** : les 3 — `npm test` passe (8 tests dont les 3 nouveaux), vérifié en local (`curl` sur `/health` et `/sante` après déploiement).
+  - **Reporté** : mise à jour de `e2e/demo.spec.ts` (faute de temps), contenu réel des modules, inscription à un atelier → itérations suivantes.
+  - **Bloqué par le harnais** : rien (`./scripts/verifier-deployabilite.sh` : aucune borne).
+  - **Démo** : non modifiée (reportée faute de temps).
+  - **Modifications** :
+    - `frontend/src/lib/modules.ts` — ajoute `ModuleParcours`, la table `MODULES_PAR_PARCOURS` (3 modules par parcours) et `modulesDuParcours(parcours)` (critères 1-3).
+    - `frontend/src/lib/modules.test.ts` — 3 tests couvrant les deux parcours connus et le cas parcours inconnu (critère 3).
+    - `frontend/src/app/page.tsx` — ajoute les états `choisirModule`/`moduleId`, le bouton « Choisir un module » sur l'écran de suggestion, l'écran de liste des modules, et l'écran *Mon module* (critères 1-2).
+
 ## À venir
 
-1. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).
-2. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
-3. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
-4. La question « besoin du moment » du quiz, reportée de l'itération 3 faute de temps.
+1. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
+2. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
+3. La question « besoin du moment » du quiz, reportée de l'itération 3 faute de temps.
+4. Contenu réel des modules (ressources, textes), au-delà du titre/description en dur.
+5. Mise à jour de `e2e/demo.spec.ts` avec le parcours module, reportée faute de temps.

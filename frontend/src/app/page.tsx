@@ -9,6 +9,7 @@ import {
   type PersonaId,
   type Stade,
 } from "@/lib/suggestions";
+import { modulesDuParcours } from "@/lib/modules";
 import styles from "./page.module.css";
 
 const PERSONAS_BURNETTE: PersonaId[] = ["burnette-reconstruction", "burnette-remobilisation"];
@@ -17,11 +18,15 @@ export default function Home() {
   const [personaId, setPersonaId] = useState<PersonaId | null>(null);
   const [energie, setEnergie] = useState<Energie | null>(null);
   const [stade, setStade] = useState<Stade | null>(null);
+  const [choisirModule, setChoisirModule] = useState(false);
+  const [moduleId, setModuleId] = useState<string | null>(null);
 
   function changerDePersona() {
     setPersonaId(null);
     setEnergie(null);
     setStade(null);
+    setChoisirModule(false);
+    setModuleId(null);
   }
 
   if (!personaId) {
@@ -97,6 +102,43 @@ export default function Home() {
   }
 
   const suggestion = estBurnette && stade ? suggererParcoursDepuisStade(stade) : suggererParcours(personaId);
+  const modules = suggestion ? modulesDuParcours(suggestion.parcours) : [];
+  const moduleChoisi = moduleId ? modules.find((m) => m.id === moduleId) ?? null : null;
+
+  if (suggestion && moduleChoisi) {
+    return (
+      <main className={styles.main}>
+        <button type="button" className={styles.back} onClick={() => setModuleId(null)}>
+          ← Changer de module
+        </button>
+        <p className={styles.eyebrow}>Mon module</p>
+        <h1 className={styles.title}>{moduleChoisi.titre}</h1>
+        <p className={styles.subtitle}>{moduleChoisi.description}</p>
+      </main>
+    );
+  }
+
+  if (suggestion && choisirModule) {
+    return (
+      <main className={styles.main}>
+        <button type="button" className={styles.back} onClick={() => setChoisirModule(false)}>
+          ← Retour à la suggestion
+        </button>
+        <h1 className={styles.title}>Choisis ton module</h1>
+        <p className={styles.subtitle}>Parcours : {suggestion.parcours}</p>
+        <ul className={styles.list}>
+          {modules.map((m) => (
+            <li key={m.id}>
+              <button type="button" className={styles.card} onClick={() => setModuleId(m.id)}>
+                <div className={styles.cardName}>{m.titre}</div>
+                <div className={styles.cardRole}>{m.description}</div>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.main}>
@@ -113,6 +155,11 @@ export default function Home() {
         </section>
       ) : (
         <p className={styles.empty}>Ce rôle n&apos;a pas de parcours personnel sur la plateforme.</p>
+      )}
+      {suggestion && modules.length > 0 && (
+        <button type="button" className={styles.chip} onClick={() => setChoisirModule(true)}>
+          Choisir un module
+        </button>
       )}
     </main>
   );
