@@ -37,11 +37,24 @@ Ce qui sort donc de ce build, reporté dans « À venir » :
 - **Fichiers prévus** (~5, hors tests) : `.env.example`, `DEPLOIEMENT.md`, `frontend/src/app/page.tsx` (écran *Qui êtes-vous ?*), une route/page *Suggestion de parcours*, un fichier de données en dur (personas + suggestion).
 - **Tests unitaires prévus** : 1 à 3, sur la logique pure de sélection de persona → suggestion affichée (pas de test sur le balisage).
 - **Étapes ajoutées à la démo** (`e2e/demo.spec.ts`) : ouvrir l'app, choisir un persona, voir la suggestion de parcours s'afficher.
-- **Bilan** : _à remplir en fin d'itération (durée de codage réelle, dépassement éventuel, fait, reporté, modifications fichier par fichier)_
+- **Bilan** :
+  - **Durée de codage réelle** : ~3 minutes (160 s entre `.iterations/1.debut` et `.iterations/1.fin`), aucun dépassement, pas de question d'alarme nécessaire.
+  - **Critères satisfaits** : les 3 — écran *Qui êtes-vous ?* avec personas, écran *Suggestion de parcours* avec données en dur, `/health` et `/sante` répondent 200 (vérifiés en local sur `localhost:8080`/`:8081`, à confirmer par le développeur sur `$URL_PUBLIQUE`, non bloquant).
+  - **Reporté** : rien de ce qui était dans le périmètre — tout est fait. Le quiz réel, le module, l'atelier et le fil d'Ariane restent dans « À venir » comme prévu.
+  - **Bloqué par le harnais** : rien sur le signal (`.env`/secrets absents, `npm test` passant). Un contretemps hors harnais a coûté du temps de déploiement : `docker.io` a renvoyé `toomanyrequests` (quota anonyme) sur les deux images de base ; contourné en basculant les `Dockerfile` vers `mirror.gcr.io/library/...`, qui sert les mêmes images sous un quota séparé.
+  - **Démo** : `e2e/demo.spec.ts` mis à jour (ouverture, choix du persona Camille, vérification de la suggestion BURN TO BE ALIVE), mais `npx playwright install` n'a jamais été exécuté sur cette machine — le navigateur Chromium manque, donc `npm run demo` échoue localement sans rapport avec l'application. Non bloquant (la démo n'est pas un test), mais à corriger avant la prochaine démo à l'équipe.
+  - **Modifications** :
+    - `.env.example` — pose la variable `PORT` attendue par le contrat de déployabilité (critère squelette).
+    - `DEPLOIEMENT.md` — description à jour du périmètre actuel et des points fragiles (critère squelette).
+    - `frontend/src/lib/suggestions.ts` + `suggestions.test.ts` — logique pure persona → suggestion, avec ses tests (critères 1 et 2).
+    - `frontend/src/app/page.tsx` + `page.module.css` — écrans *Qui êtes-vous ?* et *Suggestion de parcours* (critères 1 et 2).
+    - `api/Dockerfile`, `frontend/Dockerfile` — bascule vers `mirror.gcr.io` pour contourner le quota Docker Hub (nécessaire au déploiement, critère 3).
+    - `podman-compose.yml` — déploiement des deux services sur 8080/8081 selon la recette du serveur.
+    - `e2e/demo.spec.ts` — étapes de la démo pour cette itération (hors DoD).
 
 ## À venir
 
-1. Le vrai quiz d'évaluation (énergie, stade, besoin du moment) remplace les données en dur et calcule la suggestion.
+1. **Itération 2 (proposée)** : le vrai quiz d'évaluation (énergie, stade, besoin du moment) remplace les données en dur et calcule la suggestion — objectif démontrable : « on répond à 2-3 questions et la suggestion change selon les réponses ». À détailler en DoR au prochain `/iteration` avec le temps restant d'alors.
 2. Choix du module parmi ceux du parcours suggéré + page du module (ressources, ateliers socles disponibles).
 3. Inscription à un atelier socle depuis la page du module (ou report sans perdre le fil).
 4. Fil d'Ariane simple (sans score ni pourcentage) + réévaluation courte suggérant le prochain petit pas.
